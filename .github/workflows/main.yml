@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ windows-fix ]
   pull_request:
-    branches: [ master ]
+    branches: [ windows-fix ]
 
 jobs:
   test:
@@ -12,8 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [pypy3, 3.6, 3.7, 3.8]
-        os: [macos-10.15, ubuntu-18.04, ubuntu-20.04, windows-2019]
+        python-version: [3.6, 3.7, 3.8]
+        os: [windows-2019]
 
     steps:
     - name: Checkout Code
@@ -32,10 +32,6 @@ jobs:
     - name: Build wheel
       run: python setup.py bdist_wheel
 
-    - name: Install Vulture from wheel (For Linux and MacOS)
-      if: ${{ matrix.os != 'windows-2019' }}
-      run: "python -m pip install --only-binary=:all: ./dist/vulture-*.whl"
-
     - name: Install Vulture from wheel (For Windows)
       if: ${{ matrix.os == 'windows-2019' }}
       run: "python -m pip install --only-binary=:all: --ignore-installed --find-links=dist/ vulture"
@@ -48,6 +44,3 @@ jobs:
     - name: Run Tests
       run: tox -e py
 
-    - name: Check for Style Issues
-      if: ${{ matrix.python-version == 3.6 && matrix.os == 'ubuntu-18.04' }}
-      run: tox -e style
