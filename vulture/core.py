@@ -178,10 +178,7 @@ class Vulture(ast.NodeVisitor):
     """Find dead code."""
 
     def __init__(
-        self,
-        verbose=False,
-        ignore_names=None,
-        ignore_decorators=None,
+        self, verbose=False, ignore_names=None, ignore_decorators=None,
     ):
         self.verbose = verbose
 
@@ -320,10 +317,7 @@ class Vulture(ast.NodeVisitor):
         )
 
     def report(
-        self,
-        min_confidence=0,
-        sort_by_size=False,
-        make_whitelist=False,
+        self, min_confidence=0, sort_by_size=False, make_whitelist=False,
     ):
         """
         Print ordered list of Item objects to stdout.
